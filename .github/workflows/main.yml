@@ -1,0 +1,51 @@
+# .github/workflows/ci.yml
+
+name: Frontend CI
+
+# 이 워크플로우를 언제 실행할지 설정합니다.
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+    branches:
+      - main
+      
+# 실행할 작업(job)들을 정의합니다.
+jobs:
+  test:
+    # 이 작업이 실행될 환경을 지정합니다. 여기서는 최신 우분투를 사용합니다.
+    runs-on: ubuntu-latest
+    
+    # 작업에 필요한 환경 변수를 설정할 수 있습니다.
+    env:
+      working-directory: ./frontend  # frontend 폴더에서 명령어를 실행하도록 설정
+
+    # 실제 실행될 단계(step)들을 정의합니다.
+    steps:
+      # 1. 저장소의 코드를 체크아웃합니다.
+      - name: Checkout source code
+        uses: actions/checkout@v3
+
+      # 2. Node.js 환경을 설정합니다.
+      - name: Setup Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: '18' # 프로젝트에 맞는 Node.js 버전을 지정하세요.
+
+      # 3. 캐싱을 활용하여 종속성 설치 속도를 높입니다.
+      - name: Cache dependencies
+        uses: actions/cache@v3
+        with:
+          path: |
+            ~/.npm
+            **/node_modules
+          key: ${{ runner.os }}-node-${{ hashFiles('**/package-lock.json') }}
+
+      # 4. 종속성(dependencies)을 설치합니다.
+      - name: Install dependencies
+        run: npm ci
+
+      # 5. 프론트엔드 테스트를 실행합니다.
+      - name: Run tests
+        run: npm run test
