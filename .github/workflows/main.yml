@@ -1,35 +1,35 @@
-name: Flutter CI
+# 작업을 구성하는 단계(steps) 정의
+steps:
+  # 1. 깃허브 저장소의 코드를 체크아웃합니다.
+  - name: ⬇️ Checkout repository
+    uses: actions/checkout@v4
+    
+  # 2. Flutter SDK를 설정합니다.
+  - name: 🐦 Setup Flutter SDK
+    uses: subosito/flutter-action@v2
+    with:
+      # Flutter 최신 안정화 버전으로 설정합니다.
+      # 특정 버전을 지정하는 대신 'latest'를 사용하면 업데이트가 용이합니다.
+      flutter-version: 'latest'
+      channel: 'stable'
 
-on:
-  push:
-    branches:
-      - main
-  pull_request:
-    branches:
-      - main
+  # 3. 프로젝트의 모든 패키지 의존성을 가져옵니다.
+  - name: 📦 Install dependencies
+    run: flutter pub get
 
-jobs:
-  build:
-    runs-on: ubuntu-latest
+  # 4. 프로젝트의 모든 단위 테스트를 실행합니다.
+  # 이 단계가 실패하면 워크플로우는 멈춥니다.
+  - name: 🧪 Run tests
+    run: flutter test --no-sound-null-safety
 
-    steps:
-      - name: ⬇️ Checkout code
-        uses: actions/checkout@v4
+  # 5. (선택사항) Android APK와 AAB를 릴리스 모드로 빌드합니다.
+  # APK는 테스트용, AAB는 Google Play 스토어 업로드용으로 사용됩니다.
+  - name: 📱 Build Android (APK & AAB)
+    run: |
+      flutter build apk --release
+      flutter build appbundle --release
 
-      - name: 🐦 Setup Flutter SDK
-        uses: subosito/flutter-action@v2
-        with:
-          flutter-version: '3.19.0' # 최신 안정화 버전에 맞게 수정하세요.
-          channel: 'stable'
-
-      - name: 📦 Install dependencies
-        run: flutter pub get
-
-      - name: 🧪 Run tests
-        run: flutter test
-
-      - name: 📱 Build Android (Optional)
-        run: flutter build apk --release
-
-      - name: 🍏 Build iOS (Optional)
-        run: flutter build ios --no-codesign
+  # 6. (선택사항) iOS 앱을 빌드합니다.
+  # 코사인(codesign) 없이 빌드하여 기본적인 빌드 가능 여부를 확인합니다.
+  - name: 🍏 Build iOS
+    run: flutter build ios --no-codesign
