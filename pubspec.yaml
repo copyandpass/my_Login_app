@@ -10,3 +10,8 @@ dependencies:
   provider: ^6.0.3
   shared_preferences: ^2.0.15
   fluttertoast: ^8.0.9
+
+dev_dependencies:
+  flutter_test:
+    sdk: flutter
+  flutter_lints: ^2.0.0 # 보통 함께 사용되는 린트 패키지를 추가했습니다.
