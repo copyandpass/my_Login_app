@@ -1,6 +1,5 @@
 name: Flutter CI
 
-# main 브랜치에 push가 발생할 때 이 워크플로를 실행합니다.
 on:
   push:
     branches:
@@ -11,7 +10,7 @@ on:
 
 jobs:
   test:
-    name: Test Flutter App
+    name: Run Flutter Tests
     runs-on: ubuntu-latest
 
     steps:
@@ -21,36 +20,10 @@ jobs:
       - name: Set up Flutter
         uses: subosito/flutter-action@v2
         with:
-          flutter-version: '3.x'  # 사용 중인 Flutter 버전에 맞춰주세요.
+          flutter-version: '3.x'
 
       - name: Install dependencies
         run: flutter pub get
 
       - name: Run tests
         run: flutter test
-
-  build:
-    name: Build Flutter App
-    runs-on: ubuntu-latest
-    needs: test # 'test' job이 성공해야만 이 job이 실행됩니다.
-
-    steps:
-      - name: Checkout Repository
-        uses: actions/checkout@v4
-
-      - name: Set up Flutter
-        uses: subosito/flutter-action@v2
-        with:
-          flutter-version: '3.x'  # 사용 중인 Flutter 버전에 맞춰주세요.
-
-      - name: Install dependencies
-        run: flutter pub get
-
-      - name: Build Android APK
-        run: flutter build apk --release
-
-      - name: Upload Artifact (optional)
-        uses: actions/upload-artifact@v3
-        with:
-          name: my_app_apk
-          path: build/app/outputs/flutter-apk/app-release.apk
