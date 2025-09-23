@@ -28,9 +28,6 @@ class MockAuthProvider extends ChangeNotifier implements AuthProvider {
   void register() {}
 }
 
-class AuthProvider {
-}
-
 void main() {
   group('MyApp 라우팅 테스트', () {
     testWidgets('로그인 상태가 아닐 때 LoginScreen이 표시되어야 함', (WidgetTester tester) async {
