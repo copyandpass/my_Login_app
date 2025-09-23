@@ -1,10 +1,15 @@
+// test/main_test.dart 파일
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:provider/provider.dart';
-import 'package:my_login_app/main.dart';
+
+// 이 코드가 누락되지 않았는지 확인하세요.
 import 'package:my_login_app/providers/auth_provider.dart';
+
+import 'package:my_login_app/main.dart';
 import 'package:my_login_app/screens/login_screen.dart';
 import 'package:my_login_app/screens/home_screen.dart';
+
 
 // AuthProvider를 모의(Mock)로 구현하여 테스트에 사용합니다.
 class MockAuthProvider extends ChangeNotifier implements AuthProvider {
