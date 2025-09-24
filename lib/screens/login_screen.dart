@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:my_login_app/providers/auth_providers.dart';
+import 'package:my_login_app/providers/auth_provider.dart';
 import 'package:provider/provider.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import '../providers/auth_provider.dart';
