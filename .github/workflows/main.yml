@@ -20,14 +20,12 @@ jobs:
       - name: Set up Flutter
         uses: subosito/flutter-action@v2
         with:
-          # 프로젝트의 pubspec.yaml 파일에 명시된 Dart/Flutter 버전과 일치시켜야 합니다.
-          # 예시: '3.35.4' 또는 '3.x'
-          flutter-version: '3.35.4' 
-          channel: 'stable' # 안정적인 최신 버전을 사용합니다.
+          flutter-version: '3.35.4'
+          channel: 'stable'
 
       - name: Install dependencies
         run: flutter pub get
 
       - name: Run tests
-        # 테스트 로그를 더 자세히 보기 위해 --verbose 플래그를 추가합니다.
-        run: flutter test --verbose
+        # --verbose와 --no-test-assets 플래그를 추가하여 안정성을 높입니다.
+        run: flutter test --verbose --no-test-assets
