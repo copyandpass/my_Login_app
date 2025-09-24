@@ -68,7 +68,6 @@ void main() {
         ),
       );
       
-      // loadToken() 비동기 작업 완료를 기다림
       await tester.pumpAndSettle();
 
       expect(find.byType(LoginScreen), findsOneWidget);
@@ -85,7 +84,6 @@ void main() {
         ),
       );
       
-      // loadToken() 비동기 작업 완료를 기다림
       await tester.pumpAndSettle();
 
       expect(find.byType(HomeScreen), findsOneWidget);
