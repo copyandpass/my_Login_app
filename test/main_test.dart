@@ -55,3 +55,41 @@ class MockAuthProvider extends ChangeNotifier implements AuthProvider {
     notifyListeners();
   }
 }
+
+void main() {
+  group('MyApp 라우팅 테스트', () {
+    testWidgets('로그인 상태가 아닐 때 LoginScreen이 표시되어야 함', (WidgetTester tester) async {
+      final mockAuthProvider = MockAuthProvider(isLoggedIn: false);
+
+      await tester.pumpWidget(
+        ChangeNotifierProvider<AuthProvider>.value(
+          value: mockAuthProvider,
+          child: const MyApp(),
+        ),
+      );
+      
+      // loadToken() 비동기 작업 완료를 기다림
+      await tester.pumpAndSettle();
+
+      expect(find.byType(LoginScreen), findsOneWidget);
+      expect(find.byType(HomeScreen), findsNothing);
+    });
+
+    testWidgets('로그인 상태일 때 HomeScreen이 표시되어야 함', (WidgetTester tester) async {
+      final mockAuthProvider = MockAuthProvider(isLoggedIn: true);
+
+      await tester.pumpWidget(
+        ChangeNotifierProvider<AuthProvider>.value(
+          value: mockAuthProvider,
+          child: const MyApp(),
+        ),
+      );
+      
+      // loadToken() 비동기 작업 완료를 기다림
+      await tester.pumpAndSettle();
+
+      expect(find.byType(HomeScreen), findsOneWidget);
+      expect(find.byType(LoginScreen), findsNothing);
+    });
+  });
+}
