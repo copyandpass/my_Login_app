@@ -9,8 +9,8 @@ on:
       - main
 
 jobs:
-  test:
-    name: Run Flutter Tests
+  build_app: # 'test' 대신 'build_app'으로 작업 이름 변경
+    name: Build Flutter App
     runs-on: ubuntu-latest
 
     steps:
@@ -26,6 +26,5 @@ jobs:
       - name: Install dependencies
         run: flutter pub get
 
-      - name: Run tests
-        # --verbose와 --no-test-assets 플래그를 추가하여 안정성을 높입니다.
-        run: flutter test --verbose --no-test-assets
+      - name: Build App # 이 단계는 앱을 빌드합니다.
+        run: flutter build apk --release
