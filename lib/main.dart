@@ -1,3 +1,5 @@
+// main.dart
+
 import 'package:flutter/material.dart';
 import 'package:my_login_app/providers/auth_provider.dart';
 import 'package:provider/provider.dart';
@@ -31,7 +33,11 @@ class MyApp extends StatelessWidget {
               '/register': (context) => const RegisterScreen(),
               '/home': (context) => const HomeScreen(),
             },
-            home: authProvider.isLoggedIn ? const HomeScreen() : const LoginScreen(),
+            home: authProvider.isLoading
+                ? const Center(child: CircularProgressIndicator()) // 로딩 상태일 때 로딩 스피너 표시
+                : authProvider.isLoggedIn
+                    ? const HomeScreen()
+                    : const LoginScreen(),
           );
         },
       ),
